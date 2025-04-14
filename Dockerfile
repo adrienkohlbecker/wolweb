@@ -1,8 +1,8 @@
 # docker build -t wolweb .
 FROM golang:1.20-alpine AS builder
 
-LABEL org.label-schema.vcs-url="https://github.com/sameerdhoot/wolweb" \
-    org.label-schema.url="https://github.com/sameerdhoot/wolweb/blob/master/README.md"
+LABEL org.label-schema.vcs-url="https://github.com/adrienkohlbecker/wolweb" \
+    org.label-schema.url="https://github.com/adrienkohlbecker/wolweb/blob/master/README.md"
 
 RUN mkdir /wolweb
 WORKDIR /wolweb
@@ -10,12 +10,12 @@ WORKDIR /wolweb
 # Install Dependecies
 RUN apk update && apk upgrade && \
     apk add --no-cache git && \
-    git clone https://github.com/sameerdhoot/wolweb . && \
+    git clone --branch homelab https://github.com/adrienkohlbecker/wolweb . && \
     go mod tidy && \
     go mod download
 
 # Build Source Files
-RUN go build -o wolweb . 
+RUN go build -o wolweb .
 
 # Create 2nd Stage final image
 FROM alpine
