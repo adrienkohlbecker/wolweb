@@ -1,5 +1,5 @@
 # docker build -t wolweb .
-FROM golang:1.20-alpine AS builder
+FROM docker.io/golang:1.20-alpine AS builder
 
 LABEL org.label-schema.vcs-url="https://github.com/adrienkohlbecker/wolweb" \
     org.label-schema.url="https://github.com/adrienkohlbecker/wolweb/blob/master/README.md"
@@ -18,7 +18,7 @@ RUN apk update && apk upgrade && \
 RUN go build -o wolweb .
 
 # Create 2nd Stage final image
-FROM alpine
+FROM docker.io/alpine
 WORKDIR /wolweb
 COPY --from=builder /wolweb/index.html .
 COPY --from=builder /wolweb/wolweb .
